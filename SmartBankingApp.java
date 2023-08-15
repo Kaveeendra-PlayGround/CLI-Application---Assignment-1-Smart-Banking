@@ -93,13 +93,15 @@ public class SmartBankingApp{
                         valid = true;
                         System.out.print("\tEnter the Initial Deposit: ");
                         initialDeposit = scanner.nextDouble();
+                        scanner.nextLine();
 
                         if (initialDeposit<500){
                             valid = false;
                             System.out.printf(ERROR_MSG, "Minimum Deposit Should be more than Rs. 500/=");
                             continue;
                         }else {
-                            System.out.printf("Updated Account Balance is %.2f",initialDeposit);
+                            System.out.printf("\tUpdated Account Balance is %.2f",initialDeposit);
+                            
                         }
 
                     }while(!valid);
@@ -113,16 +115,17 @@ public class SmartBankingApp{
                         newAccountBalances [i] = accountBalances [i];
                         
                     }
-                    newAccountNumbers[accountNumbers.length-1] = accountNumber;
-                    newAccountNames[accountNumbers.length-1] = accountName;
-                    newAccountBalances[accountNumbers.length-1] = initialDeposit;
+
+                    newAccountNumbers[newAccountNumbers.length-1] = accountNumber;
+                    newAccountNames[newAccountNumbers.length-1] = accountName;
+                    newAccountBalances[newAccountNumbers.length-1] = initialDeposit;
 
                     accountNames = newAccountNames;
                     accountNumbers = newAccountNumbers;
                     accountBalances = newAccountBalances;
 
                     System.out.println();
-                    System.out.printf(SUCCESS_MSG, String.format("\t%s:%s has been saved successfully", accountNumber, accountName));
+                    System.out.printf(SUCCESS_MSG, String.format("%s:%s has been saved successfully", accountNumber, accountName));
                     System.out.print("\tDo you want to continue adding (Y/n)? ");
                     if (scanner.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
