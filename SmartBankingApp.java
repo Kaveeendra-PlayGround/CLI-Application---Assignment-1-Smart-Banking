@@ -19,7 +19,13 @@ public class SmartBankingApp{
         final String CHECK_ACCOUNT_BALANCE = "Check Accout Balance"; 
         final String DELETE_ACCOUNT = "Drop Existing Account";   
 
+        final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
+        final String SUCCESS_MSG = String.format("\t%s%s%s\n", COLOR_GREEN_BOLD, "%s", RESET);
+
         String screen = DASHBOARD;
+        String [] accountNumbers = new String [0];
+        String [] accountNames =new String [0];
+        double [] accountBalances = new double [0];
         
         do{
             final String APP_TITLE = String.format("%s%s%s",COLOR_BLUE_BOLD, screen, RESET);
@@ -56,6 +62,74 @@ public class SmartBankingApp{
                     break;
 //==========================================================================================================================================
                 case OPEN_ACCOUNT:
+//==========================================================================================================================================
+                boolean valid = true;
+                do{
+                    String accountNumber = String.format("SDB-%05d", (accountNumbers.length + 1));
+                    System.out.printf("\t%s \n",accountNumber);
+                    String accountName;
+                        // Name Validation
+                    do{
+                            valid = true;
+                            System.out.print("\tEnter the Account Name: ");
+                            accountName = scanner.nextLine().strip();
+                            if (accountName.isBlank()){
+                                System.out.printf(ERROR_MSG, "Customer name can't be empty");
+                                valid = false;
+                                continue;
+                            }
+                            for (int i = 0; i < accountName.length(); i++) {
+                                if (!(Character.isLetter(accountName.charAt(i)) || Character.isSpaceChar(accountName.charAt(i))) ) {
+                                    System.out.printf(ERROR_MSG, "Invalid name");
+                                    valid = false;
+                                    break;
+                                }
+                            }
+                    }while(!valid);
+
+                    double initialDeposit =0;
+                    
+                    do{
+                        valid = true;
+                        System.out.print("\tEnter the Initial Deposit: ");
+                        initialDeposit = scanner.nextDouble();
+
+                        if (initialDeposit<500){
+                            valid = false;
+                            System.out.printf(ERROR_MSG, "Minimum Deposit Should be more than Rs. 500/=");
+                            continue;
+                        }else {
+                            System.out.printf("Updated Account Balance is %.2f",initialDeposit);
+                        }
+
+                    }while(!valid);
+
+                    String [] newAccountNumbers = new String [accountNumbers.length+1];
+                    String [] newAccountNames = new String [accountNumbers.length+1];                     
+                    double [] newAccountBalances = new double [accountNumbers.length+1];
+                    for (int i = 0; i < accountNumbers.length; i++) {
+                        newAccountNumbers[i] = accountNumbers [i];
+                        newAccountNames [i] = accountNames [i];
+                        newAccountBalances [i] = accountBalances [i];
+                        
+                    }
+                    newAccountNumbers[accountNumbers.length-1] = accountNumber;
+                    newAccountNames[accountNumbers.length-1] = accountName;
+                    newAccountBalances[accountNumbers.length-1] = initialDeposit;
+
+                    accountNames = newAccountNames;
+                    accountNumbers = newAccountNumbers;
+                    accountBalances = newAccountBalances;
+
+                    System.out.println();
+                    System.out.printf(SUCCESS_MSG, String.format("\t%s:%s has been saved successfully", accountNumber, accountName));
+                    System.out.print("\tDo you want to continue adding (Y/n)? ");
+                    if (scanner.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;
+
+                }while(valid);
+                    
 //==========================================================================================================================================
                 case DEPOSIT_MONEY:
                 case WITHDRAW_MONEY:
