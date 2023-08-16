@@ -132,9 +132,17 @@ public class SmartBankingApp{
                     break;
 
                 }while(valid);
-                    
+                break;   
 //==========================================================================================================================================
                 case DEPOSIT_MONEY:
+//========================================================================================================================================== 
+                valid = true;
+                do{
+                    System.out.println("Enter Account Number: ");
+                    String accountNumber = scanner.nextLine();
+
+                } while (valid);
+//========================================================================================================================================== 
                 case WITHDRAW_MONEY:
                 case TRANSFER_MONEY:
                 case CHECK_ACCOUNT_BALANCE:
